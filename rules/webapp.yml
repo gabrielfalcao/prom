@@ -1,0 +1,18 @@
+groups:
+- name: Flask Application
+  rules:
+  - alert: High-latency requests
+    expr: min(time() - http_request_latency_seconds{job="flask"}) > 1
+    for: 1s
+    labels:
+      severity: slack
+    annotations:
+      summary: Request took more than 1 second
+
+  - alert: Low-latency requests
+    expr: min(time() - http_request_latency_seconds{job="flask"}) < 1
+    for: 1s
+    labels:
+      severity: slack
+    annotations:
+      summary: Request took less than 1 second
